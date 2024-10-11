@@ -4,8 +4,9 @@ import AddToCartButton from "@/components/AddToCartButton";
 import ProductCard from "@/components/ProductCard";
 import useActiveProductContext from "@/context/ActiveProductContext";
 import useCategoryContext from "@/context/CategoryContext";
+import useFilterContext from "@/context/FilterContext";
 import useCart from "@/hooks/useCart";
-import useProduct from "@/hooks/useProduct";
+import useProduct, { ProductCategoryGroup } from "@/hooks/useProduct";
 import cn from "classnames";
 import { useCallback, useMemo } from "react";
 
@@ -22,17 +23,41 @@ const ProductList: React.FC = () => {
   const { updateProductNavigation } = useActiveProductContext();
   const { activeCategory } = useCategoryContext();
 
+  const {searchKeyword} = useFilterContext();
+
   const filteredProducts = useMemo(() => {
     if (!products || !activeCategory) return [];
-    return products.filter((item) => item.category === activeCategory);
-  }, [activeCategory, products]);
+
+    let filteredProducts =  products.filter((item) => item.category === activeCategory);
+
+    if (searchKeyword)
+      filteredProducts = filteredProducts.filter((item) => item.name.toLowerCase().includes(searchKeyword.toLowerCase()))
+
+    return filteredProducts;
+  }, [searchKeyword, activeCategory, products]);
+
+  const filteredProductCategoryGroup: ProductCategoryGroup = useMemo(() => {
+    if (!searchKeyword)
+      return productCategoryGroup;
+    
+    console.log("Testis " + searchKeyword)
+
+    const newGroup: ProductCategoryGroup = {};
+    if (!products) return newGroup;
+    categories.forEach((category) => {
+      const productList = products.filter(each => ((each.category === category) && (each.name.toLowerCase().includes(searchKeyword.toLowerCase()))));
+      newGroup[category] = productList;
+    });
+    return newGroup;
+  }, [searchKeyword, productCategoryGroup, categories, products]);
+
 
   const handleOpenDetail = useCallback(
     (productId: number) => {
       const productIdList: number[] = [];
       if (!activeCategory) {
         categories.forEach((category) => {
-          const innerList = productCategoryGroup[category].map(
+          const innerList = filteredProductCategoryGroup[category].map(
             (item) => item.id
           );
           productIdList.push(...innerList);
@@ -47,7 +72,7 @@ const ProductList: React.FC = () => {
       activeCategory,
       categories,
       filteredProducts,
-      productCategoryGroup,
+      filteredProductCategoryGroup,
       updateProductNavigation,
     ]
   );
@@ -80,7 +105,7 @@ const ProductList: React.FC = () => {
           <div key={category} className="flex flex-col">
             <h1 className="font-bold text-2xl">{category}</h1>
             <div className="grid grid-cols-2 gap-2 mt-4">
-              {productCategoryGroup[category].map((item, index) => (
+              {filteredProductCategoryGroup[category].map((item, index) => (
                 <ProductCard
                   onClick={handleOpenDetail}
                   key={item.id}
