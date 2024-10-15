@@ -7,17 +7,23 @@ import { Button } from "../ui/button";
 
 interface AddToCardButton {
   withProductThumbnails?: boolean;
+  callback : () => void
 }
 const AddToCartButton: React.FC<AddToCardButton> = ({
-  withProductThumbnails,
+  withProductThumbnails, callback
 }) => {
   const {showCart, setShowCart} = useCartContext();
   const { getTotalPrice, lastTwoItems } = useCart();
   const totalPrice = getTotalPrice();
+
+  const handleButtonClick = () => {
+     setShowCart(true)
+     callback()
+  }
   
   return (
     <div className="md:flex md:justify-center">
-      <Button onClick={()=>setShowCart(true)} className="mt-4 w-full md:w-[800px] px-6 py-[14px] rounded-full flex justify-between h-fit !bg-black">
+      <Button onClick={handleButtonClick} className="mt-4 w-full md:w-[800px] px-6 py-[14px] rounded-full flex justify-between h-fit !bg-black">
         <div className="flex gap-2">
           <div className="font-medium text-xl ">
             {withProductThumbnails ? "Cart" : "To Checkout"}

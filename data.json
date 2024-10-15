@@ -9,7 +9,23 @@
       "id": "4b63"
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "id": "0",
+      "productId": "0",
+      "quantity": 1100
+    },
+    {
+      "id": "26",
+      "productId": "26",
+      "quantity": 1800
+    },
+    {
+      "id": "24",
+      "productId": "24",
+      "quantity": 1700
+    }
+  ],
   "products": [
     {
       "price": 0.0032,

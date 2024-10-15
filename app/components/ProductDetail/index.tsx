@@ -1,15 +1,15 @@
 "use client";
 
+import AddToCartButton from "@/components/AddToCartButton";
+import Favorite from "@/components/Icons/Favorite";
+import QtyGroup from "@/components/QtyGroup";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import useActiveProductContext from "@/context/ActiveProductContext";
 import useProduct from "@/hooks/useProduct";
-import Image from "next/image";
-import PrevProductIcon from "@/public/icons/prev-product.png";
 import NextProductIcon from "@/public/icons/next-product.png";
-import Favorite from "@/components/Icons/Favorite";
-import QtyGroup from "@/components/QtyGroup";
+import PrevProductIcon from "@/public/icons/prev-product.png";
 import cn from "classnames";
-import AddToCartButton from "@/components/AddToCartButton";
+import Image from "next/image";
 
 interface ProductDetailProps {}
 
@@ -21,6 +21,7 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
     hasNext,
     hasPrev,
     resetActiveProduct,
+    setActiveProduct,
   } = useActiveProductContext();
   const { productMap } = useProduct();
 
@@ -108,7 +109,7 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
                     </div>
                   </div>
                 </div>
-                <AddToCartButton />
+                <AddToCartButton  callback={() =>{setActiveProduct(undefined)}}/>
               </div>
             </>
           ) : null}
