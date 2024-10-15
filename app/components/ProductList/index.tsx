@@ -40,7 +40,7 @@ const ProductList: React.FC = () => {
     if (!searchKeyword)
       return productCategoryGroup;
     
-    console.log("Testis " + searchKeyword)
+    console.log("Test tist " + searchKeyword)
 
     const newGroup: ProductCategoryGroup = {};
     if (!products) return newGroup;

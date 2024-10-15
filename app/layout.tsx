@@ -1,4 +1,5 @@
 import { ActiveProductProvider } from "@/context/ActiveProductContext";
+import { CartContextProvider } from "@/context/CartContext";
 import { CategoryProvider } from "@/context/CategoryContext";
 import { FilterContextProvider } from "@/context/FilterContext";
 import ReactQueryProvider from "@/utils/providers/ReactQueryProvider";
@@ -22,7 +23,9 @@ export default function RootLayout({
         <ActiveProductProvider>
           <CategoryProvider>
             <FilterContextProvider>
-              <body className="font-sf-pro-display">{children}</body>
+              <CartContextProvider>
+                <body className="font-sf-pro-display">{children}</body>
+              </CartContextProvider>
             </FilterContextProvider>
           </CategoryProvider>
         </ActiveProductProvider>

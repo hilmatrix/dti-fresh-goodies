@@ -1,7 +1,6 @@
 "use client";
 import useCart from "@/hooks/useCart";
 import useProduct from "@/hooks/useProduct";
-import Image from "next/image";
 import CartItem from "./Item";
 
 const CartList: React.FC = () => {
